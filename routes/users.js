@@ -1,17 +1,22 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
+let usersController = require('../controller/user');
+let passport = require('passport');
 
-router.get('/', userspage);
+/* GET users listing. */
+router.get('/', function(req, res, next) {  
+  res.render('users', { 
+    title: 'Users',
+    userName: req.user ? req.user.username : ''
+  });
+});
 
-function userspage(req, res, next) {
-  res.render(
-    'users', 
-    { 
-      title: 'Users',
-      userName: 'Zhouxuan'
-    }
-  );
-}
+router.get('/signup', usersController.renderSignup);
+router.post('/signup', usersController.signup);
 
+router.get('/signin', usersController.renderSignin);
+router.post('/signin', usersController.signin);
+
+router.get('/signout', usersController.signout);
 
 module.exports = router;
