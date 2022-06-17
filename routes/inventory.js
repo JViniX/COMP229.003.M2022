@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-let inventoryController = require('../controller/inventory');
+let inventoryController = require('../controllers/inventory');
 
 // Connect to our model
 let Inventory = require('../models/inventory');
@@ -23,17 +23,17 @@ function requireAuth(req, res, next)
 router.get('/list', inventoryController.inventoryList);
 
 // Routers for edit
-router.get('/edit/:id', requireAuth, inventoryController.displayEditPage);
-router.post('/edit/:id', requireAuth, inventoryController.processEditPage);
+// router.get('/edit/:id', requireAuth, inventoryController.displayEditPage);
+router.put('/edit/:id', inventoryController.processEdit);
 
 // Delete
-router.get('/delete/:id', requireAuth, inventoryController.performDelete);
+router.delete('/delete/:id', inventoryController.performDelete);
 
 
 /* GET Route for displaying the Add page - CREATE Operation */
-router.get('/add', requireAuth, inventoryController.displayAddPage);
+// router.get('/add', requireAuth, inventoryController.displayAddPage);
 
 /* POST Route for processing the Add page - CREATE Operation */
-router.post('/add', requireAuth, inventoryController.processAddPage);
+router.post('/add', inventoryController.processAdd);
 
 module.exports = router;

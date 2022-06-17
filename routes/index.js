@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let controlerIndex = require('../controller/index');
+let controlerIndex = require('../controllers/index');
 
 /* GET home page. */
 router.get('/', controlerIndex.home);
