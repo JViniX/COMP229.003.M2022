@@ -23,34 +23,34 @@ function getErrorMessage(err) {
   return message;
 };
 
-module.exports.renderSignin = function(req, res, next) {
-  if (!req.user) {
-    res.render('auth/signin', {
-      title: 'Sign-in Form',
-      messages: req.flash('error') || req.flash('info')
-    });
-  } else {
-    console.log(req.user);
-    return res.redirect('/');
-  }
-};
+// module.exports.renderSignin = function(req, res, next) {
+//   if (!req.user) {
+//     res.render('auth/signin', {
+//       title: 'Sign-in Form',
+//       messages: req.flash('error') || req.flash('info')
+//     });
+//   } else {
+//     console.log(req.user);
+//     return res.redirect('/');
+//   }
+// };
 
-module.exports.renderSignup = function(req, res, next) {
-  if (!req.user) {
+// module.exports.renderSignup = function(req, res, next) {
+//   if (!req.user) {
 
-    // creates a empty new user object.
-    let newUser = User();
+//     // creates a empty new user object.
+//     let newUser = User();
 
-    res.render('auth/signup', {
-      title: 'Sign-up Form',
-      messages: req.flash('error'),
-      user: newUser
-    });
+//     res.render('auth/signup', {
+//       title: 'Sign-up Form',
+//       messages: req.flash('error'),
+//       user: newUser
+//     });
 
-  } else {
-    return res.redirect('/');
-  }
-};
+//   } else {
+//     return res.redirect('/');
+//   }
+// };
 
 module.exports.signup = function(req, res, next) {
   if (!req.user && req.body.password === req.body.password_confirm) {
@@ -82,10 +82,10 @@ module.exports.signup = function(req, res, next) {
   }
 };
 
-module.exports.signout = function(req, res, next) {
-  req.logout();
-  res.redirect('/');
-};
+// module.exports.signout = function(req, res, next) {
+//   req.logout();
+//   res.redirect('/');
+// };
 
 module.exports.signin = function(req, res, next){
   passport.authenticate('local', {   
