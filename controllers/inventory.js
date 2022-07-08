@@ -15,31 +15,16 @@ function getErrorMessage(err) {
     }
 };
 
-module.exports.inventoryList = function(req, res, next){  
+module.exports.inventoryList = async function(req, res, next){  
 
     try {
-        InventoryModel.find((err, inventoryList) => {
-            //console.log(inventoryList);
-            if(err)
-            {
-                console.error(err);
-                return res.status(400).json(
-                    { 
-                        success: false, 
-                        message: getErrorMessage(err)
-                    }
-                );
-            }
-            else
-            {
-                // res.render('inventory/list', {
-                //     title: 'Inventory List', 
-                //     InventoryList: inventoryList,
-                //     userName: req.user ? req.user.username : ''
-                // })       
-                res.status(200).json(inventoryList);
-            }
+        let inventoryList = await InventoryModel.find().populate({
+            path: 'owner',
+            select: 'firstName lastName email username admin created'
         });
+
+        res.status(200).json(inventoryList);
+        
     } catch (error) {
         return res.status(400).json(
             { 
@@ -89,7 +74,8 @@ module.exports.processEdit = (req, res, next) => {
                 w: req.body.size.w,
                 uom: req.body.size.uom,
             },
-            tags: req.body.tags.split(",").map(word => word.trim())
+            tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
+            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
         });
     
         InventoryModel.updateOne({_id: id}, updatedItem, (err) => {
@@ -196,7 +182,8 @@ module.exports.processAdd = (req, res, next) => {
                 w: req.body.size.w,
                 uom: req.body.size.uom,
             },
-            tags: req.body.tags.split(",").map(word => word.trim())
+            tags: (req.body.tags == null || req.body.tags == "") ? "": req.body.tags.split(",").map(word => word.trim()),
+            owner: (req.body.owner == null || req.body.owner == "")? req.payload.id : req.body.owner
         });
 
         InventoryModel.create(newItem, (err, item) =>{

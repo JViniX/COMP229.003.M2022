@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let usersController = require('../controllers/user');
-let passport = require('passport');
+let authController = require('../controllers/auth');
 
 /* GET users listing. */
 // router.get('/', function(req, res, next) {  
@@ -10,6 +10,8 @@ let passport = require('passport');
 //     userName: req.user ? req.user.username : ''
 //   });
 // });
+
+router.get('/me', authController.requireAuth, usersController.myprofile);
 
 // router.get('/signup', usersController.renderSignup);
 router.post('/signup', usersController.signup);
