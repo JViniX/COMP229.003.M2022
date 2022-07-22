@@ -9,10 +9,15 @@ let methodOverride = require('method-override');
 // let session = require('express-session');
 // let flash = require('connect-flash');
 let passport = require('passport');
+let cors = require('cors');
 
 let errorHandler = require('./error-handler');
 
 let app = express();
+
+// Enable cors
+app.use(cors());
+app.options('*', cors());
 
 // app.use(session({
 //   saveUninitialized: true,
